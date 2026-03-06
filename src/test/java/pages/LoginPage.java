@@ -3,32 +3,35 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginPage {
-    WebDriver driver;
+public class LoginPage extends BasePage {
+
+    public LoginPage(WebDriver driver) {
+        super(driver);
+    }
 
     By username = By.id("username");
     By password = By.id("password");
     By loginBtn = By.cssSelector("button[type='submit']");
     By successMsg = By.id("flash");
-
-
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-    }
+    By errorMsg = By.id("flash");
 
     public void enterUsername(String user) {
-        driver.findElement(username).sendKeys(user);
+        type(username, user);
     }
 
     public void enterPassword(String pass) {
-        driver.findElement(password).sendKeys(pass);
+        type(password, pass);
     }
 
     public void clickLogin() {
-        driver.findElement(loginBtn).click();
+        click(loginBtn);
     }
 
     public String getSuccessMessage() {
-        return driver.findElement(successMsg).getText();
+        return getText(successMsg);
+    }
+
+    public String getErrorMessage() {
+        return getText(errorMsg);
     }
 }
