@@ -1,0 +1,145 @@
+# Selenium Java BDD Automation Framework
+
+This project is a sample **Selenium Automation Framework** built using **Java, Cucumber BDD, and Gradle**.
+It demonstrates a scalable test automation architecture using **Page Object Model (POM)** and modern automation practices.
+
+---
+
+## Tech Stack
+
+* Java
+* Selenium WebDriver
+* Cucumber BDD
+* Gradle
+* Page Object Model (POM)
+* Log4j2 Logging
+* Extent Reports
+* WebDriverManager
+
+---
+
+## Framework Features
+
+• Page Object Model design pattern
+• BasePage reusable Selenium utilities
+• ThreadLocal WebDriver for parallel execution
+• Hooks for setup and teardown
+• Screenshot capture on test failure
+• Extent HTML reporting
+• Log4j2 logging implementation
+• Tag based test execution
+• Scenario Outline for data-driven testing
+• Configuration using properties file
+
+---
+
+## Project Structure
+
+src
+
+```
+src
+ ├── test
+ │   ├── java
+ │   │   ├── pages
+ │   │   │     BasePage.java
+ │   │   │     LoginPage.java
+ │   │   │     SecurePage.java
+ │   │   │
+ │   │   ├── stepdefinitions
+ │   │   │     Hooks.java
+ │   │   │     LoginSteps.java
+ │   │   │
+ │   │   ├── runners
+ │   │   │     TestRunner.java
+ │   │   │
+ │   │   └── utils
+ │   │         DriverFactory.java
+ │   │         ConfigReader.java
+ │   │
+ │   └── resources
+ │       ├── features
+ │       │     login.feature
+ │       │
+ │       ├── config
+ │       │     config.properties
+ │       │
+ │       ├── extent.properties
+ │       └── log4j2.xml
+```
+
+---
+
+## Test Scenarios
+
+1. Successful Login
+2. Invalid Login
+3. Logout Functionality
+
+---
+
+## Running Tests
+
+Run tests using the TestRunner class:
+
+```
+TestRunner.java
+```
+
+Tests can also be executed using **Cucumber Tags**.
+
+Example:
+
+```
+tags = "@Smoke"
+```
+
+or
+
+```
+tags = "@Regression"
+```
+
+---
+
+## Test Reports
+
+After execution reports are generated in:
+
+```
+target/
+```
+
+Reports available:
+
+• Cucumber HTML Report
+• Extent HTML Report
+
+---
+
+## Logging
+
+Log4j2 is used for logging test execution.
+
+Logs are generated at:
+
+```
+logs/automation.log
+```
+
+---
+
+## Sample Application Used
+
+https://the-internet.herokuapp.com/login
+
+---
+
+Logging
+
+The framework uses Log4j2 for logging test execution details.
+Logs are printed in console and stored in logs/automation.log for debugging purposes.  
+
+## Author
+
+Automation Framework developed as a learning project for Selenium WebDriver + Cucumber BDD.
