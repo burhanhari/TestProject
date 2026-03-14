@@ -19,8 +19,11 @@ dependencies {
     // Cucumber
     testImplementation 'io.cucumber:cucumber-java:7.15.0'
     testImplementation 'io.cucumber:cucumber-junit:7.15.0'
+    testImplementation 'io.cucumber:cucumber-testng:7.15.0'
     // JUnit
     testImplementation 'junit:junit:4.13.2'
+    // TestNG
+    testImplementation 'org.testng:testng:7.10.2'
     //Web Driver Manager
     implementation 'io.github.bonigarcia:webdrivermanager:5.7.0'
 
@@ -28,4 +31,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+tasks.register('testNG', Test) {
+    description = 'Runs TestNG-based tests.'
+    group = 'verification'
+    useTestNG()
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    include '**/TestNGRunner.class'
 }
