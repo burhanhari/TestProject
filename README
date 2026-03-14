@@ -1,0 +1,84 @@
+# Test Project
+
+## Overview
+A Java test automation framework using Selenium WebDriver, Cucumber BDD, and the Page Object Model. It includes hooks, reporting, and configuration via properties.
+
+## Framework Features
+- Selenium WebDriver with Java
+- Cucumber BDD implementation
+- Page Object Model design pattern
+- BasePage reusable utilities
+- ThreadLocal WebDriver for parallel execution
+- Scenario Outline for data-driven testing
+- Hooks for setup and teardown
+- Screenshot capture on failure
+- Extent HTML reporting
+- Tag-based test execution
+- Configuration through properties file
+
+## Local Prerequisites
+- JDK 17 (or compatible JDK for your environment)
+- Gradle wrapper (included)
+
+## Local Run
+- JUnit + Cucumber:
+  ```powershell
+  .\gradlew test
+  ```
+- TestNG + Cucumber:
+  ```powershell
+  .\gradlew testNG
+  ```
+  Optional overrides:
+  ```powershell
+  .\gradlew testNG -Dcucumber.filter.tags="@smoke and not @wip" -Dbrowser=firefox -Denv=qa
+  ```
+
+## Jenkins Integration Guide
+
+### What You Need
+- Jenkins installed and running (local or server)
+- JDK installed on the Jenkins agent
+- Git installed on the Jenkins agent
+- Network access to your repository
+
+### Recommended Jenkins Plugins
+- Pipeline
+- Git
+- GitHub Branch Source (if using GitHub)
+- HTML Publisher (for Cucumber HTML reports)
+- Workspace Cleanup (optional)
+
+### Step-by-Step Setup
+1. Add a `Jenkinsfile` at the project root (already provided in this repo).
+2. In Jenkins, configure a JDK:
+   - `Manage Jenkins` -> `Global Tool Configuration` -> `JDK`.
+   - Name it `JDK17` (or update the Jenkinsfile to match your JDK name).
+3. Create a new Pipeline job:
+   - `New Item` -> `Pipeline`.
+4. Configure the pipeline:
+   - Choose `Pipeline script from SCM`.
+   - SCM: `Git`.
+   - Repository URL: your repo URL.
+   - Branches to build: `main` (or your branch).
+   - Script Path: `Jenkinsfile`.
+5. Save and `Build Now`.
+
+### What the Pipeline Does
+- Checks out code
+- Verifies Java version
+- Runs the TestNG Cucumber suite via Gradle
+- Archives test results and HTML reports (if present)
+- Publishes the Cucumber HTML report in Jenkins (HTML Publisher plugin)
+
+### Build Parameters
+- `TAGS`: Cucumber tags expression. Leave empty to run all.
+- `BROWSER`: Browser for WebDriver. Options: `chrome`, `firefox`, `edge`.
+- `ENV`: Environment selector. Options: `qa`, `stage`, `prod`.
+
+### Jenkins Pipeline File
+See `Jenkinsfile` in the project root.
+
+## Notes
+- If you want JUnit-based Cucumber instead of TestNG in Jenkins, update the Jenkinsfile test step to `./gradlew test`.
+- If you use a different JDK name in Jenkins, update the `tools` section in the Jenkinsfile.
