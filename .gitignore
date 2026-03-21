@@ -35,6 +35,8 @@ bin/
 /dist/
 /nbdist/
 /.nb-gradle/
+logs/
+target/
 
 ### VS Code ###
 .vscode/
