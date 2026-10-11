@@ -12,7 +12,7 @@ public class SecurePage extends BasePage {
     By successMsg = By.id("flash");
 
     public void clickLogout() {
-        click(logoutBtn);
+        clickElement(logoutBtn);
     }
 
     public String getMessage() {

@@ -15,11 +15,11 @@ public class BasePage {
         this.driver = driver;
     }
 
-    public void click(By locator) {
+    public void clickElement(By locator) {
         driver.findElement(locator).click();
     }
 
-    public void type(By locator, String text) {
+    public void sendKeys(By locator, String text) {
         driver.findElement(locator).sendKeys(text);
     }
 
@@ -35,4 +35,5 @@ public class BasePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
+
 }

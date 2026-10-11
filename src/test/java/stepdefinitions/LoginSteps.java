@@ -1,52 +1,53 @@
 package stepdefinitions;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import io.cucumber.java8.En;
 import org.junit.Assert;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import pages.LoginPage;
-import utils.ConfigReader;
-import utils.DriverFactory;
+import pages.PageContextUI;
+import utils.PropertiesLoader;
+import utils.WebDriverSingleton;
 
-import java.util.Properties;
-
-public class LoginSteps {
+public class LoginSteps implements En {
     WebDriver driver;
-    LoginPage loginPage;
-    Properties prop;
+    PageContextUI pageContextUI;
 
-    @Given("user launches the browser")
-    public void user_launches_browser() {
-        driver = DriverFactory.getDriver();
-        prop = ConfigReader.getProperties();
+    public LoginSteps() {
+        Given("user navigates to login page", () -> {
+            pageContextUI.getDriver().get(PropertiesLoader.getProperty("url"));
+        });
+
+        When("user enters username and password", () -> {
+            pageContextUI.getLoginPage().enterUsername(PropertiesLoader.getProperty("username"));
+            pageContextUI.getLoginPage().enterPassword(PropertiesLoader.getProperty("password"));
+        });
+
+        When("clicks on login button", () -> pageContextUI.getLoginPage().clickLogin());
+
+        Then("user should see the dashboard",
+                () -> Assert.assertTrue(pageContextUI.getDashboardPage().isDisplayed()));
     }
 
-    @Given("user navigates to login page")
-    public void user_navigates_to_login_page() {
-        driver.get(prop.getProperty("url"));
-        loginPage = new LoginPage(driver);
+    @Before
+    public void setUp() {
+        driver = WebDriverSingleton.getInstance().getDriver();
+        pageContextUI = new PageContextUI(driver);
     }
 
-    @When("user enters username and password")
-    public void user_enters_username_and_password() {
-        loginPage.enterUsername(prop.getProperty("username"));
-        loginPage.enterPassword(prop.getProperty("password"));
-    }
-
-    @When("clicks on login button")
-    public void clicks_on_login_button() {
-
-        loginPage.clickLogin();
-    }
-
-    @Then("user should see successful login message")
-    public void user_should_see_successful_login_message() {
-
-        String message = loginPage.getSuccessMessage();
-
-        Assert.assertTrue(message.contains("You logged into a secure area"));
-
-        DriverFactory.quitDriver();
+    @After
+    public void tearDown(Scenario scenario) {
+        try {
+            if (scenario.isFailed() && driver != null) {
+                byte[] screenshot = ((TakesScreenshot) driver)
+                        .getScreenshotAs(OutputType.BYTES);
+                scenario.attach(screenshot, "image/png", "Failure Screenshot");
+            }
+        } finally {
+            WebDriverSingleton.getInstance().quitDriver();
+        }
     }
 }
